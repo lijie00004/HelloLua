@@ -23,10 +23,14 @@ end
 
 --local bg_title = createScale9Sprite("bg/bg_title.png", cc.p(211.5,365),bg_login, cc.size(265,46))
 function createScale9Sprite(image, positon, parent, size )
-    local scale9Sprite = cc.Scale9Sprite:create(image)
-    scale9Sprite:setPosition(positon)
+    local scale9Sprite = ccui.Scale9Sprite:create(image)
+    if positon then
+        scale9Sprite:setPosition(positon)
+    end
     scale9Sprite:setContentSize(size)
-    parent:addChild(scale9Sprite)
+    if parent then
+        parent:addChild(scale9Sprite)
+    end
     return scale9Sprite
 end
 
@@ -60,13 +64,17 @@ end
 --
 function createTTF(string, font, fontSize, positon, parent, color3B, outlineColor, outlineSize)
     local lable = cc.Label:createWithTTF(string, font, fontSize)
-    lable:setPosition(positon)
+    if positon then
+        lable:setPosition(positon)
+    end
     if color3B then
         lable:setColor(color3B)
     end
     if outlineColor then
         lable:enableOutline(outlineColor,outlineSize)
     end 
+    if parent then
     parent:addChild(lable)
+    end
     return lable
 end

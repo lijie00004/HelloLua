@@ -7,7 +7,6 @@ require "Text"
 --设计分辨率大小
 local designResolutionSize = cc.size(480, 854)--设计大小
 
-
 cclog = function(...)
     print(string.format(...))
 end
@@ -29,6 +28,8 @@ local function main()
 
     -- 设置设计分辨率策略
     glview:setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, cc.ResolutionPolicy.FIXED_WIDTH)
+
+    size = cc.Director:getInstance():getWinSize()
 
     --设置是否显示帧率和精灵个数
     director:setDisplayStats(true)
