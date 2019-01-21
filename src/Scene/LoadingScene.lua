@@ -33,15 +33,19 @@ function LogingScene:createLayer()
     cclog("LogingScene init")
     local layer = cc.Layer:create()
     local bg = createSprite("bg/bg.png", cc.p(size.width/2,size.height/2), layer)
-    local bg_login = createScale9Sprite("bg/bg_login.png", cc.p(size.width/2,size.height/2), layer, cc.size(423,370))
-    local bg_title = createScale9Sprite("bg/bg_title.png", cc.p(211.5,365),bg_login, cc.size(265,46))
-    local bg_info = createScale9Sprite("bg/bg_info.png", cc.p(211.5,185), bg_login, cc.size(360,250))
-    local bg_character = createSprite("bg/character.png", cc.p(350,203),  bg_login)
+    self.bg_login = createScale9Sprite("bg/bg_login.png", cc.p(size.width/2,size.height/2), layer, cc.size(423,370))
+    local bg_title = createScale9Sprite("bg/bg_title.png", cc.p(211.5,365),self.bg_login, cc.size(265,46))
+    local bg_info = createScale9Sprite("bg/bg_info.png", cc.p(211.5,185), self.bg_login, cc.size(360,250))
+    local bg_character = createSprite("bg/character.png", cc.p(350,203),  self.bg_login)
 
+    --创建账号
     local function OnClickMenu(tag, menuItemSender)
-        cclog("222222222222222222")
+        self.bg_login:setVisible(false)
+        local registerLayer = self:createRegisterLayer()
+        self:addChild(registerLayer)
+
     end
-    local bg_bar = createSprite("bg/bg_bar.png", cc.p(295,44),  bg_login)--cc.p(109.5,21)
+    local bg_bar = createSprite("bg/bg_bar.png", cc.p(295,44),  self.bg_login)--cc.p(109.5,21)
     local lb_title = createTTF(LStr("Login_05"), font, font_24, nil, nil, color_1,color_2,1)
     local mu_title = cc.MenuItemLabel:create(lb_title)
     mu_title:registerScriptTapHandler(OnClickMenu)
@@ -92,6 +96,29 @@ function LogingScene:createLayer()
     local mn = cc.Menu:create(mu_ig)
     mn:setPosition(cc.p(180, 40))--130*92
     bg_info:addChild(mn)
+
+
+    return layer
+end
+
+function LogingScene:createRegisterLayer()
+    local layer = cc.Layer:create()
+    local bg_login = createScale9Sprite("bg/bg_login.png", cc.p(size.width/2,size.height/2), layer, cc.size(447,500))
+    local bg_title = createScale9Sprite("bg/bg_title.png", cc.p(223.5,495),bg_login, cc.size(265,46))
+    local lb_title = createTTF(LStr("Login_01"), font, font_24, cc.p(134,23), bg_title, color_3)
+
+    --关闭按钮
+    local function menuCloseCallback(sender, eventType)
+        if eventType == ccui.TouchEventType.ended then
+            self.bg_login:setVisible(true)
+            self:removeChild(layer, true)
+        end
+    end
+    local btn_close = ccui.Button:create("bg/btn_close.png", "bg/btn_close.png")
+    btn_close:setPosition(430,490)
+    btn_close:addTouchEventListener(menuCloseCallback)
+    btn_close:setPressedActionEnabled(true)
+    bg_login:addChild(btn_close)
 
     return layer
 end
